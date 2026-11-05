@@ -37,3 +37,6 @@ build/
 
 ### Tiled (éditeur de maps) ###
 *.tiled*
+
+### Maven CI cache ###
+.m2/
