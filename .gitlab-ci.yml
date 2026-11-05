@@ -1,0 +1,65 @@
+image: maven:3.9-eclipse-temurin-25-alpine
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  JAR_FILENAME: "game-$CI_COMMIT_TAG.jar"
+
+stages:
+  - build
+  - lint
+  - test
+  - deploy
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .m2/repository/
+
+before_script:
+  - mkdir -p ~/.m2
+  - |
+    cat <<EOF > ~/.m2/settings.xml
+    <settings xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+      <proxies>
+        <proxy><id>http-proxy</id><active>true</active><protocol>http</protocol><host>194.254.199.96</host><port>3128</port></proxy>
+        <proxy><id>https-proxy</id><active>true</active><protocol>https</protocol><host>194.254.199.96</host><port>3128</port></proxy>
+      </proxies>
+    </settings>
+    EOF
+
+lint-test-job:
+  stage: lint
+  script:
+    - mvn org.apache.maven.plugins:maven-checkstyle-plugin:3.6.0:check
+
+build-job:
+  stage: build
+  script:
+    - mvn compile
+
+unit-test-job:
+  stage: test
+  script:
+    - mvn verify
+  artifacts:
+    paths:
+      - target/site/jacoco/
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+
+
+deploy-job:
+  stage: deploy
+  script:
+    - mvn package
+    - mv target/colony-glorb-*.jar target/$JAR_FILENAME
+  artifacts:
+    paths:
+      - target/$JAR_FILENAME
+    expire_in: never
+
+  rules:
+    - if: '$CI_COMMIT_TAG'
+    - when: never
