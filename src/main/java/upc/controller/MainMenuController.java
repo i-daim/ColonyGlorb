@@ -16,7 +16,6 @@ public class MainMenuController {
     private void initButtonsActions() {
         view.getPlayButton().setOnAction(e -> {
             System.out.println("lancement");
-            // TODO: appeler le SceneManager pour lancer le jeu
         });
 
         view.getSettingsButton().setOnAction(e -> {
