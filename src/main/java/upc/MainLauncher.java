@@ -1,6 +1,10 @@
+package upc;
 import javafx.application.Application;
-import upc.Main;
 
-void main() {
-    Application.launch(Main.class);
+
+public class MainLauncher {
+
+    public static void main(String[] args) {
+        Application.launch(Main.class, args);
+    }
 }
