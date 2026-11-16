@@ -1,7 +1,6 @@
 package upc.model.box;
 
-import javax.swing.text.Position;
-
+import upc.model.image.Position;
 import upc.model.image.PixelColor;
 
 public class Alien {
