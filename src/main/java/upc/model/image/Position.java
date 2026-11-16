@@ -1,21 +1,9 @@
 package upc.model.image;
 
-public class Position {
-    private int x;
-    private int y;
+/** Coordonnée immuable.
+ * @param x coordonnée horizontale
+ * @param y coordonnée verticale
+ */
+public record Position(int x, int y) {
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-
-    //  GETTERS & SETTERS
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
 }
-
