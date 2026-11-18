@@ -54,7 +54,7 @@ deploy-job:
   stage: deploy
   script:
     - mvn package
-    - mv target/colony-glorb-*.jar target/$JAR_FILENAME
+    - mv target/ColonyGlorb-*.jar target/$JAR_FILENAME
   artifacts:
     paths:
       - target/$JAR_FILENAME
